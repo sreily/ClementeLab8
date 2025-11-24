@@ -37,10 +37,21 @@ a:hover {
   color: #ffffff;
   text-decoration: underline;
 }
-button, .btn-getstarted, .cta-btn {
-  background: #ff4d4f;
-  border-radius: 8px;
-  transition: 0.3s;
+button,
+.btn,
+.btn-getstarted,
+.cta-btn,
+.php-email-form button[type="submit"] {
+  background: linear-gradient(135deg, #ff4d4f, #ff7b7c) !important;
+  color: #ffffff !important;
+  padding: 14px 30px !important;
+  border-radius: 14px !important;
+  border: none !important;
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+  box-shadow: 0 6px 18px rgba(255, 77, 79, 0.4) !important;
+  transition: all 0.25s ease-in-out !important;
 }
 
 button:hover,
@@ -155,4 +166,102 @@ transition: all 0.3s ease-in-out !important;
 .table-modern tr:hover td {
   background: rgba(255, 77, 79, 0.22);
   transition: 0.2s;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-title {
+  animation: fadeInUp 1s ease-in-out;
+}
+@keyframes floatUp {
+  from { transform: translateY(0); }
+  to { transform: translateY(-8px); }
+}
+
+.portfolio-card:hover {
+  animation: floatUp 0.4s ease forwards;
+}
+#preloader {
+  background-color: #141414;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader-circle {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(255,255,255,0.2);
+  border-top-color: #ff4d4f;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(120deg, #3a0a0a, #260506, #4d0d0f);
+  background-size: 300% 300%;
+  animation: bgMove 12s ease-in-out infinite;
+}
+@keyframes bgMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(120deg, rgba(255,0,0,0.25), rgba(255,77,79,0.15), rgba(125, 19, 255, 0.4));
+  background-size: 400% 400%;
+  animation: heroGradient 10s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes heroGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.decor-circle {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 70px;
+  height: 70px;
+  background: rgba(255,77,79,0.3);
+  border-radius: 50%;
+  animation: floatShape 3s ease-in-out infinite alternate;
+  z-index: 99999;
+}
+
+@keyframes floatShape {
+  from { transform: translateY(0); }
+  to { transform: translateY(-15px); }
 }
