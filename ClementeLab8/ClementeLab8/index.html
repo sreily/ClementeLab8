@@ -881,36 +881,74 @@
           </div>
 
           <div class="col-lg-8">
-            <form action="forms/contact.php" method="post" class="php-email-form">
-              <div class="row gy-4">
+            <div class="col-lg-8">
+  <form id="labForm" class="php-email-form">
+    <div class="row gy-4">
 
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
-                </div>
+      <!-- Name -->
+      <div class="col-md-6">
+        <input type="text" id="name" class="form-control" placeholder="Name" required>
+      </div>
 
-                <div class="col-md-6">
-                  <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
-                </div>
+      <!-- Surname -->
+      <div class="col-md-6">
+        <input type="text" id="surname" class="form-control" placeholder="Surname" required>
+      </div>
 
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
-                </div>
+      <!-- Email -->
+      <div class="col-md-6">
+        <input type="email" id="email" class="form-control" placeholder="Email" required>
+      </div>
 
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
-                </div>
+      <!-- Phone -->
+      <div class="col-md-6">
+        <input type="text" id="phone" class="form-control" placeholder="Phone Number" required>
+      </div>
 
-                <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
+      <!-- Address -->
+      <div class="col-md-12">
+        <input type="text" id="address" class="form-control" placeholder="Address" required>
+      </div>
 
-                  <button type="submit">Send Message</button>
-                </div>
+      <!-- Ratings -->
+      <div class="col-md-4">
+        <input type="number" id="rating1" class="form-control" placeholder="Rating 1 (1–10)" min="1" max="10" required>
+      </div>
 
-              </div>
-            </form>
-          </div>
+      <div class="col-md-4">
+        <input type="number" id="rating2" class="form-control" placeholder="Rating 2 (1–10)" min="1" max="10" required>
+      </div>
+
+      <div class="col-md-4">
+        <input type="number" id="rating3" class="form-control" placeholder="Rating 3 (1–10)" min="1" max="10" required>
+      </div>
+
+      <!-- Submit -->
+      <div class="col-md-12 text-center">
+        <button type="submit">Submit</button>
+      </div>
+
+    </div>
+  </form>
+
+  <!-- Results container -->
+  <div id="results" style="margin-top: 20px; font-size: 15px;"></div>
+
+  <!-- Popup -->
+  <div id="popupSuccess" style="
+    display:none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #059652;
+    padding: 15px 20px;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    z-index: 999;">
+    Form submitted successfully!
+  </div>
+</div>
 
         </div>
 
@@ -1005,6 +1043,7 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/custom.js"></script>
 
   <div class="decor-circle"></div>
 </body>
