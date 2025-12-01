@@ -210,7 +210,6 @@ function updateBestScore() {
 
   const previous = localStorage.getItem(key);
 
-  // If no previous record OR current moves is better (less)
   if (!previous || moves < previous) {
     localStorage.setItem(key, moves);
   }
@@ -327,7 +326,6 @@ function stopTimer() {
     lockBoard = false;
   }
 
-  // Buttons
   document.getElementById("startGame").addEventListener("click", generateBoard);
   document.getElementById("restartGame").addEventListener("click", generateBoard);
 
