@@ -5,12 +5,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const popup = document.getElementById("popupSuccess");
     const submitBtn = form.querySelector("button[type='submit']");
 
-    // Disable submit at start
     submitBtn.disabled = true;
     submitBtn.style.opacity = "0.5";
     submitBtn.style.cursor = "not-allowed";
 
-    // --- VALIDATION FUNCTIONS -----------------------------------
 
     function isNotEmpty(value) {
         return value.trim().length > 0;
@@ -32,11 +30,9 @@ document.addEventListener("DOMContentLoaded", function () {
         return value.trim().length >= 5;
     }
 
-    // Add error message under field
     function showError(input, message) {
         input.style.border = "1px solid red";
 
-        // prevent duplication
         if (input.nextElementSibling && input.nextElementSibling.classList.contains("error-text")) return;
 
         const small = document.createElement("small");
@@ -57,38 +53,36 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // --- PHONE MASKING -------------------------------------------
 
     const phoneInput = document.getElementById("phone");
 
     phoneInput.addEventListener("input", function () {
-        let numbers = phoneInput.value.replace(/\D/g, ""); // remove non-digits
+        let numbers = phoneInput.value.replace(/\D/g, "");
 
-        // Start with +370 automatically
+        
         if (!numbers.startsWith("370")) {
             numbers = "370" + numbers;
         }
 
-        // Format: +370 6xx xxxx
+        
         let formatted = "+";
-        formatted += numbers.substring(0, 3); // 370
+        formatted += numbers.substring(0, 3); 
 
         if (numbers.length > 3) {
-            formatted += " " + numbers[3];  // 6
+            formatted += " " + numbers[3]; 
         }
 
         if (numbers.length > 4) {
-            formatted += numbers.substring(4, 6); // xx
+            formatted += numbers.substring(4, 6);
         }
 
         if (numbers.length > 6) {
-            formatted += " " + numbers.substring(6, 10); // xxxx
+            formatted += " " + numbers.substring(6, 10); 
         }
 
         phoneInput.value = formatted;
     });
 
-    // --- REAL-TIME VALIDATION --------------------------------------
 
     const inputs = form.querySelectorAll("input");
 
@@ -131,7 +125,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!isValidRating(r2.value)) { showError(r2, "1–10 only"); valid = false; } else clearError(r2);
         if (!isValidRating(r3.value)) { showError(r3, "1–10 only"); valid = false; } else clearError(r3);
 
-        // Enable or disable submit
         if (valid) {
             submitBtn.disabled = false;
             submitBtn.style.opacity = "1";
@@ -143,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // --- SUBMIT LOGIC (your required task) --------------------------
+   
 
     form.addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent reload
@@ -178,9 +171,164 @@ document.addEventListener("DOMContentLoaded", function () {
               <span style="color:${color}; font-weight:600;">${average}</span></p>
         `;
 
-        // Popup
         popup.style.display = "block";
         setTimeout(() => popup.style.display = "none", 2000);
     });
+
+});
+document.addEventListener("DOMContentLoaded", function () {
+
+  const emojis = ['🔥','⭐','🎧','⚡','🎮','🍀','🚗','🎲','🐱','🍎','🎵','🧩'];
+
+  let board = document.getElementById("gameBoard");
+  let movesText = document.getElementById("moves");
+  let matchesText = document.getElementById("matches");
+  let winMessage = document.getElementById("winMessage");
+
+  let firstCard = null;
+  let secondCard = null;
+  let lockBoard = false;
+  let moves = 0;
+  let matches = 0;
+
+function loadBestScore() {
+  const difficulty = document.getElementById("difficulty").value;
+  const key = difficulty + "_best";
+
+  const best = localStorage.getItem(key);
+
+  if (best) {
+    document.getElementById("bestScore").innerText = best;
+  } else {
+    document.getElementById("bestScore").innerText = "--";
+  }
+}
+
+function updateBestScore() {
+  const difficulty = document.getElementById("difficulty").value;
+  const key = difficulty + "_best";
+
+  const previous = localStorage.getItem(key);
+
+  // If no previous record OR current moves is better (less)
+  if (!previous || moves < previous) {
+    localStorage.setItem(key, moves);
+  }
+
+  loadBestScore();
+}
+  let timerInterval;
+  let seconds = 0;
+
+  function startTimer() {
+    clearInterval(timerInterval);
+    seconds = 0;
+
+    timerInterval = setInterval(() => {
+        seconds++;
+
+        let mins = String(Math.floor(seconds / 60)).padStart(2, "0");
+        let secs = String(seconds % 60).padStart(2, "0");
+
+        document.getElementById("timer").innerText = `${mins}:${secs}`;
+    }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+}
+  function shuffle(array) {
+    return array.sort(() => 0.5 - Math.random());
+  }
+
+  function generateBoard() {
+    board.innerHTML = "";
+    winMessage.style.display = "none";
+    moves = 0;
+    matches = 0;
+    startTimer();
+
+    movesText.innerText = moves;
+    matchesText.innerText = matches;
+
+    const difficulty = document.getElementById("difficulty").value;
+    let neededPairs = difficulty === "easy" ? 6 : 12;
+
+    let selected = emojis.slice(0, neededPairs);
+    let gameSet = shuffle([...selected, ...selected]);
+
+    board.className = "memory-board " + difficulty;
+
+    gameSet.forEach(icon => {
+      const card = document.createElement("div");
+      card.classList.add("memory-card");
+      card.dataset.icon = icon;
+      card.innerHTML = ""; // hidden at start
+
+      card.addEventListener("click", flipCard);
+
+      board.appendChild(card);
+    });
+    loadBestScore();
+  }
+
+  function flipCard() {
+    if (lockBoard) return;
+    if (this.classList.contains("flipped")) return;
+
+    this.classList.add("flipped");
+    this.innerHTML = this.dataset.icon;
+
+    if (!firstCard) {
+      firstCard = this;
+      return;
+    }
+
+    secondCard = this;
+    lockBoard = true;
+
+    moves++;
+    movesText.innerText = moves;
+
+    checkMatch();
+  }
+
+  function checkMatch() {
+    if (firstCard.dataset.icon === secondCard.dataset.icon) {
+      firstCard.classList.add("matched");
+      secondCard.classList.add("matched");
+
+      matches++;
+      matchesText.innerText = matches;
+
+      resetTurn();
+
+      const totalPairs = document.getElementById("difficulty").value === "easy" ? 6 : 12;
+      if (matches === totalPairs) {
+        winMessage.style.display = "block";
+        stopTimer();
+        updateBestScore();
+      }
+
+    } else {
+      setTimeout(() => {
+        firstCard.classList.remove("flipped");
+        secondCard.classList.remove("flipped");
+        firstCard.innerHTML = "";
+        secondCard.innerHTML = "";
+        resetTurn();
+      }, 800);
+    }
+  }
+
+  function resetTurn() {
+    firstCard = null;
+    secondCard = null;
+    lockBoard = false;
+  }
+
+  // Buttons
+  document.getElementById("startGame").addEventListener("click", generateBoard);
+  document.getElementById("restartGame").addEventListener("click", generateBoard);
 
 });

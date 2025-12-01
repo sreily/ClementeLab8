@@ -832,7 +832,46 @@
       </div>
 
     </section><!-- /Portfolio Section -->
+<section id="memory-game" class="section" style="margin-top: 80px;">
+  <div class="container section-title" data-aos="fade-up">
+    <span class="subtitle">Script Programming Lab 12</span>
+    <h2>Memory Game</h2>
+    <p>A simple JavaScript memory game with two difficulty levels.</p>
+  </div>
 
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <div class="text-center mb-4">
+      <label for="difficulty" style="font-size: 1.2rem; font-weight: 600; color: white;">Difficulty:</label>
+      <select id="difficulty" style="padding: 10px 15px; border-radius: 10px;">
+        <option value="easy">Easy (4 × 3)</option>
+        <option value="hard">Hard (6 × 4)</option>
+      </select>
+    </div>
+
+    <div class="text-center mb-4">
+      <button id="startGame">Start Game</button>
+      <button id="restartGame">Restart</button>
+    </div>
+
+    <div id="gameStats" class="text-center mb-3" style="font-size: 1.2rem; color:white;">
+      Moves: <span id="moves">0</span> | Matches: <span id="matches">0</span>
+    </div>
+    <div id="bestScoreBox" class="text-center mb-2" style="font-size:1.2rem; color:lightgreen;">
+      Best Moves: <span id="bestScore">--</span>
+    </div>
+    <div id="timerBox" class="text-center mb-2" style="font-size:1.2rem; color:white;">
+      Time: <span id="timer">00:00</span>
+    </div>
+
+    <div id="gameBoard" class="memory-board"></div>
+
+    <div id="winMessage" class="text-center" style="font-size: 1.5rem; color: lightgreen; margin-top: 20px; display:none;">
+      🎉 You Won! Great Memory!
+    </div>
+
+  </div>
+</section>
     <!-- Contact Section -->
     <section id="contact" class="contact section">
 

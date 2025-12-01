@@ -265,3 +265,42 @@ body::before {
   from { transform: translateY(0); }
   to { transform: translateY(-15px); }
 }
+.memory-board {
+  display: grid;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.memory-card {
+  width: 90px;
+  height: 110px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.25s ease, background 0.25s;
+}
+
+.memory-card.flipped {
+  background: rgba(255,255,255,0.3);
+  transform: scale(1.08);
+}
+
+.memory-card.matched {
+  background: #059652 !important;
+  cursor: default;
+}
+
+.memory-board.easy {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.memory-board.hard {
+  grid-template-columns: repeat(6, 1fr);
+}
